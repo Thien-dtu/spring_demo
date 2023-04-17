@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="utf-8"%>
 <%-- <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,7 +120,7 @@
 					</li>
 					
 					<li><a class="getstarted"
-						href="https://www.facebook.com/dthien232/">Get Started</a></li>
+						href="${pageContext.request.contextPath}/summary">Summary</a></li>
 				</ul>
 				<i class="bi bi-list mobile-nav-toggle"></i>
 			</nav>

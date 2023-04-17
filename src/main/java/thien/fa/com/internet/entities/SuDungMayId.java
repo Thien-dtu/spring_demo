@@ -52,7 +52,7 @@ public class SuDungMayId implements Serializable {
 		return gioBatDauSuDung;
 	}
 
-	public void setGioBatDauSuDung(LocalTime gioBatDauSuDung) {
+  public void setGioBatDauSuDung(LocalTime gioBatDauSuDung) {
 		this.gioBatDauSuDung = gioBatDauSuDung;
 	}
 

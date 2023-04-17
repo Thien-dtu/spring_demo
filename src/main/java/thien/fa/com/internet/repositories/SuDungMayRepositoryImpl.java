@@ -1,5 +1,8 @@
 package thien.fa.com.internet.repositories;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -58,35 +61,34 @@ public class SuDungMayRepositoryImpl {
     return session.createQuery("SELECT COUNT(*) FROM SuDungMay p", Long.class)
         .getSingleResult();
   }
+  
+  public List<SuDungMay> searchDate(String searchKey, PageAble pageAble) {
+    Session session = sessionFactory.getCurrentSession();
+    Query<SuDungMay> createQuery = session.createQuery(
+        "FROM SuDungMay sdm where sdm.id.ngayBatDauSuDung = :ngayBatDauSuDung",
+        SuDungMay.class);
+    try {
+      LocalDate ngayBatDauSuDung = LocalDate.parse(searchKey, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+      createQuery.setParameter("ngayBatDauSuDung", ngayBatDauSuDung );
+    } catch (DateTimeParseException ex) {
+      // TODO: handle exception
+      createQuery.setParameter("ngayBatDauSuDung", null);
+    }
+    List<SuDungMay> SuDungMays = createQuery.setFirstResult(pageAble.getOffset())// Offset
+        .setMaxResults(pageAble.getSize()) // limit
+        .getResultList();
+    return SuDungMays;
+  }
 
   public List<SuDungMay> search(String searchKey, PageAble pageAble) {
-    System.out.println("vao duoc repo search");
     Session session = sessionFactory.getCurrentSession();
-//    Query<SuDungMay> createQuery = session.createQuery(
-//        "FROM SuDungMay where maKH like :maKH or maMay like :maMay or ngayBatDauSuDung like :ngayBatDauSuDung or gioBatDauSuDung like :gioBatDauSuDung or thoiGianSuDung like :thoiGianSuDung",
-//        SuDungMay.class);
     Query<SuDungMay> createQuery = session.createQuery(
-        "SELECT sdm FROM SuDungMay sdm JOIN sdm.khachHang kh where sdm.maKH like :maKH or sdm.maMay like :maMay or kh.tenKH like :tenKH",
+        "FROM SuDungMay sdm where sdm.id.maKH like :maKH or sdm.id.maMay like :maMay or sdm.khachHang.tenKH like :tenKH or sdm.may.viTri like :viTri",
         SuDungMay.class);
     createQuery.setParameter("maKH", "%" + searchKey + "%");
     createQuery.setParameter("maMay", "%" + searchKey + "%");
     createQuery.setParameter("tenKH", "%" + searchKey + "%");
-    
-//    try {
-//      // convert user input string to LocalDate object
-//      LocalDate ngayBatDauSuDung = LocalDate.parse(searchKey, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-//      System.out.println(ngayBatDauSuDung.toString());
-//      LocalDate gioBatDauSuDung = LocalDate.parse(searchKey, DateTimeFormatter.ofPattern("HH:mm"));
-//      System.out.println(gioBatDauSuDung.toString());
-//      createQuery.setParameter("ngayBatDauSuDung", ngayBatDauSuDung);
-//      createQuery.setParameter("gioBatDauSuDung", gioBatDauSuDung);
-//  } catch (DateTimeParseException ex) {
-//      // if user input is not in correct format, set ngayBatDauSuDung to null
-//      createQuery.setParameter("ngayBatDauSuDung", null);
-//      createQuery.setParameter("gioBatDauSuDung", null);
-//  }
-//    int thoiGianSuDung = Integer.parseInt(searchKey);
-//    createQuery.setParameter("thoiGianSuDung", "%" + thoiGianSuDung + "%");
+    createQuery.setParameter("viTri", "%" + searchKey + "%");
     List<SuDungMay> SuDungMays = createQuery.setFirstResult(pageAble.getOffset())// Offset
         .setMaxResults(pageAble.getSize()) // limit
         .getResultList();

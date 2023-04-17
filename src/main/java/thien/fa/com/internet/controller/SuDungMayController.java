@@ -122,4 +122,18 @@ public class SuDungMayController {
     model.addAttribute("currentPage", page);
     return "/sudungmay/list";
   }
+  
+  @GetMapping("/searchdate")
+  public String searchSuDungMayDate(Model model,
+      @RequestParam(defaultValue = "1") Integer page,
+      @RequestParam(name = "searchKey", defaultValue = "") String searchKey) {
+    PageAble pageAble = new PageAble(page);
+    List<SuDungMay> suDungMays = suDungMayServiceImpl.searchDate(searchKey,
+        pageAble);
+    model.addAttribute("suDungMays", suDungMays);
+    model.addAttribute("searchKey", searchKey);
+    model.addAttribute("totalPages", mayServiceImpl.totalPages(pageAble));
+    model.addAttribute("currentPage", page);
+    return "/sudungmay/list";
+  }
 }

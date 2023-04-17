@@ -57,6 +57,11 @@ public class SuDungMayServiceImpl {
 	public List<SuDungMay> search(String searchKey, PageAble pageAble) {
 		return SuDungMayRepository.search(searchKey, pageAble);
 	}
+	
+	@Transactional
+  public List<SuDungMay> searchDate(String searchKey, PageAble pageAble) {
+    return SuDungMayRepository.searchDate(searchKey, pageAble);
+  }
 
 	@Transactional
 	public boolean existSerial(String serial) {

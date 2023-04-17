@@ -23,7 +23,17 @@
 						action="${pageContext.request.contextPath}/sudungmay/search">
 						<input class="form-control me-2" type="search"
 							placeholder="Search" aria-label="Search" name="searchKey"
-							value="${searchKey}">
+<%-- 							value="${searchKey}" --%>
+							>
+						<button class="btn btn-outline-success" type="submit">Search</button>
+					</form>
+				</div>
+				
+				<div class="mb-3 col-5">
+					<form class="d-flex pt-2" role="search" method="get"
+						action="${pageContext.request.contextPath}/sudungmay/searchdate">
+						<input class="form-control me-2" type="date" placeholder="Search" aria-label="Search" name="searchKey"
+						value="${searchKey}" />
 						<button class="btn btn-outline-success" type="submit">Search</button>
 					</form>
 				</div>
@@ -62,7 +72,7 @@
 			</table>
 			<div style="text-align: center;">
 				<a class="btn btn-primary" style="float: left;" href="add">Add
-					New Computer</a>
+					New Use Computer</a>
 				<c:if test="${currentPage > 1}">
 					<a href="list?page=${currentPage-1}">Previous</a>
 				</c:if>
